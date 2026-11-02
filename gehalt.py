@@ -1,44 +1,23 @@
 import tool
-def berechne_abrechnung(name, bruttogehalt, vL_AG, jahr, kinder, vS, Zusatzbeitrag, vorschuss, frac):
+def berechne_abrechnung(name, bruttogehalt, vL_AG, lohnsteuer, kinder, vS, Zusatzbeitrag, vorschuss, frac):
     print("Willkommen zu Julian Binefelds Gehaltsrechner. ")
     print("")
-    
-    #Hinweise
-    print("Hinweis: Bei dezimalen Zahlen Punkt statt Komma benutzen. z. B. 2,9 Eingabe 2.9 ")
-    print("Hinweis: Bei Prozenten nur die Zahl ohne %-Zeichen. z. B. 30% Eingabe 30. ")
-    
-    print("")
-    
-    question_1 = tool.sicherung_entsch("Ist die Lohnsteuer gegeben? j=ja/n=nein ")
-    print("")
-    
-    #Beitragsbemessungsgrenzen 2025
-    Beitragsbemessungsgrenze_RV_AV_2025 = 8050.00
-    Beitragsbemessungsgrenze_KV_PV_2025 = 5512.50
     
     #Beitragsbemessungsgrenzen 2026
     Beitragsbemessungsgrenze_RV_AV_2026 = 8450.00
     Beitragsbemessungsgrenze_KV_PV_2026 = 5812.50
+
+    jahr = 2026
     
-    if jahr == 2025:
-        Beitragsbemessungsgrenze_RV_AV = Beitragsbemessungsgrenze_RV_AV_2025
-        Beitragsbemessungsgrenze_KV_PV = Beitragsbemessungsgrenze_KV_PV_2025
-    elif jahr == 2026:
+    if jahr == 2026:
         Beitragsbemessungsgrenze_RV_AV = Beitragsbemessungsgrenze_RV_AV_2026
         Beitragsbemessungsgrenze_KV_PV = Beitragsbemessungsgrenze_KV_PV_2026
     else:
-        print("Fehler: Bitte 2025/ 2026 wählen! ")
-    print("")
+        print("Fehler: Bitte 2026 wählen! ")
     
     st_sv_gehalt = bruttogehalt + vL_AG
-    
-    if question_1 == "j":
-        lohnsteuer = tool.sicherung_float("Wie hoch ist die Lohnsteuer? ")
-        KiSt_euro = lohnsteuer * 8 / 100
-    else:
-        lohnsteuer = tool.sicherung_float("Die Lohnsteuer aus Lohnsteuertabelle rauslesen. ")
-        KiSt_euro = tool.sicherung_float("KiSt aus Lohnsteuertabelle rauslesen. ")
-    
+
+    KiSt_euro = lohnsteuer * 8 / 100
     steuern = lohnsteuer + KiSt_euro
     print("")
     
@@ -58,6 +37,7 @@ def berechne_abrechnung(name, bruttogehalt, vL_AG, jahr, kinder, vS, Zusatzbeitr
         PV_Beitragssatz_AN = 0.8
     else:
         PV_Beitragssatz_AN = 2.4
+    
     PV_AN_anteil = PV_Beitragssatz_AN / 100
     
     PV_Beitragssatz_AG = 1.8
@@ -88,7 +68,7 @@ def berechne_abrechnung(name, bruttogehalt, vL_AG, jahr, kinder, vS, Zusatzbeitr
     nettogehalt = st_sv_gehalt - steuern - sv_AN_anteil
     
     ueberweisungbetrag = nettogehalt - vS - vorschuss
-    print("")
+
     #Ausgaben
     print(name )
     tool.dynammische_dezimal("Das Bruttogehalt", bruttogehalt, frac)
